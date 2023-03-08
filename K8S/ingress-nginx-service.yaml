@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - host: testme.com
+      http:
+        paths:
+          - path: /api/products
+            pathType: Prefix
+            backend:
+              service:
+                name: products-clusterip-service
+                port:
+                  number: 80
+          - path: /api/orders/products
+            pathType: Prefix
+            backend:
+              service:
+                name: orders-clusterip-service
+                port:
+                  number: 80
